@@ -6,7 +6,7 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:02:26 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 10:16:18 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 10:44:35 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	isfullspace(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (!((str[i] >= 9 && str[i] <= 13) || str[i] != ' '))
+		if (!((str[i] >= 9 && str[i] <= 13) || str[i] == ' '))
 			return (0);
 		i++;
 	}

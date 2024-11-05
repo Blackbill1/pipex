@@ -6,30 +6,32 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:29:28 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 04:32:07 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 05:56:18 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	handle_exec_error(char *cmd_path, char *cmd_name)
+static void	handle_exec_error(char *cmd_path, char *cmd_name, t_pipex *data)
 {
 	char	*error;
 
 	if (!cmd_path)
 	{
 		error = ft_strjoin("Command not found: ", cmd_name);
-		error = ft_strjoin(error, "\n");
+		error = clean_join(error, "\n");
 		write(2, error, ft_strlen(error));
 		free(error);
+		clear_data(data);
 		exit(1);
 	}
-	if (access(cmd_path, X_OK) == -1)
+	else if (access(cmd_path, X_OK) == -1)
 	{
 		error = ft_strjoin("Permission denied: ", cmd_name);
-		error = ft_strjoin(error, "\n");
+		error = clean_join(error, "\n");
 		write(2, error, ft_strlen(error));
 		free(error);
+		clear_data(data);
 		exit(1);
 	}
 }
@@ -86,8 +88,10 @@ static void	child_process(t_pipex *data, char **cmd, int cmd_index)
 {
 	char	*cmd_path;
 
+	dprintf(2, "caca1\n");
 	cmd_path = find_command_path(cmd[0], data->envp);
-	handle_exec_error(cmd_path, cmd[0]);
+	dprintf(2, "%s\n", cmd_path);
+	handle_exec_error(cmd_path, cmd[0], data);
 	setup_pipes(data, cmd_index);
 	close_all_pipes(data);
 	execve(cmd_path, cmd, data->envp);

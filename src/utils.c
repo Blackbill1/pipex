@@ -6,7 +6,7 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:29:54 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 03:59:52 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 05:15:44 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	init_pipex(t_pipex *data, int ac, char **av, char **envp)
 	while (i < ac - 3)
 	{
 		data->cmd[i] = ft_split(av[i + 2], ' ');
+		// if (ft_strcmp(av[i + 2], "") == 0)
+		// 	return (ft_putendl_fd("No command", 2), 1);
 		data->cmd_count++;
 		i++;
 	}
@@ -115,23 +117,12 @@ void	clear_data(t_pipex *data)
 		free(data->cmd);
 	}
 }
-// void    display_cmd(t_pipex *data)
-// {
-//     int i;
-//     int j;
 
-//     i = 0;
-//     ft_printf("Nombre total de commandes: %d\n", data->cmd_count);
-//     while (i < data->cmd_count)
-//     {
-//         j = 0;
-//         ft_printf("Commande %d: ", i + 1);
-//         while (data->cmd[i][j] != NULL)
-//         {
-//             ft_printf("|%s|", data->cmd[i][j]);
-//             j++;
-//         }
-//         ft_printf("\n");
-//         i++;
-//     }
-// }
+char *clean_join(char *s1, char *s2)
+{
+	char	*res;
+
+	res = ft_strjoin(s1, s2);
+	free(s1);
+	return res;
+}

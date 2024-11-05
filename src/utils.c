@@ -6,7 +6,7 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:29:54 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 22:18:56 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 23:27:00 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,15 @@ void	handle_here_doc(t_pipex *data, char **av)
 {
 	int		tmp;
 	char	*line;
-	int		save_stdout;
 
-	save_stdout = dup(STDOUT_FILENO);
 	tmp = open("tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (tmp == -1)
 	{
 		perror("Open tmp failed ");
 		clear_data(data);
-		close(save_stdout);
 		exit(1);
 	}
 	data->limiter = ft_strjoin(av[2], "\n");
-	dup2(tmp, STDOUT_FILENO);
 	line = get_next_line(0);
 	while (ft_strcmp(line, data->limiter) != 0)
 	{
@@ -123,8 +119,7 @@ void	handle_here_doc(t_pipex *data, char **av)
 		line = get_next_line(0);
 	}
 	free(line);
-	dup2(save_stdout, STDOUT_FILENO);
-	(close(save_stdout), close(tmp));
+	close(tmp);
 }
 
 void	clear_data(t_pipex *data)

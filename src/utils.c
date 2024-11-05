@@ -6,7 +6,7 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:29:54 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 03:49:19 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 03:59:52 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	handle_here_doc(t_pipex *data, char **av)
 	tmp = open("tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (tmp == -1)
 	{
-		perror("Open tmp failed: ");
+		perror("Open tmp failed ");
 		clear_data(data);
-		return ;
+		exit (1);
 	}
 	data->limiter = ft_strjoin(av[2], "\n");
 	dup2(tmp, STDOUT_FILENO);

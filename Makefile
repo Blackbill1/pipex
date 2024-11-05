@@ -4,7 +4,6 @@ NAME = pipex
 # Compilateur et flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -I $(INCDIR) -I $(LIB) -I$(INCLIB)
-CLINKS = -ldl -lglfw -pthread -lm
 
 LIB = koalib
 LIBFT = $(LIB)/libft.a
@@ -28,7 +27,7 @@ all: $(LIBFT) $(NAME)
 
 # Compilation de l'exécutable avec les bibliothèques
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(CLINKS)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 	@echo "Compilation de $(NAME) terminée."
 
 # Compilation de la libft

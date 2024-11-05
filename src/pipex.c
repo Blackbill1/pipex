@@ -6,7 +6,7 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 20:53:12 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 10:39:23 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 10:54:32 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	main(int ac, char **av, char **envp)
 		return (ft_putstr_fd("Invalid args\ntry input <cmd> <cmd2> output\n",
 				2), 1);
 	if (ac < 6 && ft_strcmp(av[1], "here_doc") == 0)
-		return (ft_putstr_fd("Invalid here_doc input\n", 2), 1);
+		return (ft_putstr_fd("Invalid here_doc input\n", 2),
+			ft_putstr_fd("Try here_doc LIMITER <cmd> <cmd2> output\n", 2), 1);
 	if (ft_strcmp(av[1], "here_doc") == 0)
 	{
 		handle_here_doc(&data, av);

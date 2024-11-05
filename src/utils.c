@@ -6,32 +6,11 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:29:54 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 03:13:48 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 03:49:19 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-// void    display_cmd(t_pipex *data)
-// {
-//     int i;
-//     int j;
-
-//     i = 0;
-//     ft_printf("Nombre total de commandes: %d\n", data->cmd_count);
-//     while (i < data->cmd_count)
-//     {
-//         j = 0;
-//         ft_printf("Commande %d: ", i + 1);
-//         while (data->cmd[i][j] != NULL)
-//         {
-//             ft_printf("|%s|", data->cmd[i][j]);
-//             j++;
-//         }
-//         ft_printf("\n");
-//         i++;
-//     }
-// }
 
 int	init_pipex(t_pipex *data, int ac, char **av, char **envp)
 {
@@ -92,9 +71,9 @@ void	handle_here_doc(t_pipex *data, char **av)
 	tmp = open("tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (tmp == -1)
 	{
-		perror("Open failed: ");
+		perror("Open tmp failed: ");
 		clear_data(data);
-		exit(1);
+		return ;
 	}
 	data->limiter = ft_strjoin(av[2], "\n");
 	dup2(tmp, STDOUT_FILENO);

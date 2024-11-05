@@ -6,7 +6,7 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 20:52:50 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 05:02:11 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 08:07:44 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,5 @@ void		close_all_pipes(t_pipex *data);
 int			init_pipex2(t_pipex *data, int ac, char **av, char **envp);
 int			init_pipex(t_pipex *data, int ac, char **av, char **envp);
 void		clear_data(t_pipex *data);
-char *clean_join(char *s1, char *s2);
+char		*clean_join(char *s1, char *s2);
+void		handle_exec_error(char *cmd_path, char *cmd_name, t_pipex *data);

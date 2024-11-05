@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   clean_join.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 11:43:30 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/04 20:26:33 by tle-dref         ###   ########.fr       */
+/*   Created: 2024/11/05 04:58:29 by tle-dref          #+#    #+#             */
+/*   Updated: 2024/11/05 04:58:57 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+char *clean_join(char *s1, char *s2)
 {
-	t_list	*head;
-	t_list	*new;
+	char	*res;
 
-	head = NULL;
-	while (lst)
-	{
-		new = ft_lstnew(NULL);
-		if (!new)
-		{
-			ft_lstclear(&head, del);
-			return (NULL);
-		}
-		new->content = f(lst->content);
-		ft_lstadd_back(&head, new);
-		lst = lst->next;
-	}
-	return (head);
+	res = ft_strjoin(s1, s2);
+	free(s1);
+	return res;
 }

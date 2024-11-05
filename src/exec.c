@@ -6,51 +6,18 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:29:28 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 05:56:18 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 09:52:18 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	handle_exec_error(char *cmd_path, char *cmd_name, t_pipex *data)
+static char	*search_in_paths(char **paths, char *cmd)
 {
-	char	*error;
-
-	if (!cmd_path)
-	{
-		error = ft_strjoin("Command not found: ", cmd_name);
-		error = clean_join(error, "\n");
-		write(2, error, ft_strlen(error));
-		free(error);
-		clear_data(data);
-		exit(1);
-	}
-	else if (access(cmd_path, X_OK) == -1)
-	{
-		error = ft_strjoin("Permission denied: ", cmd_name);
-		error = clean_join(error, "\n");
-		write(2, error, ft_strlen(error));
-		free(error);
-		clear_data(data);
-		exit(1);
-	}
-}
-
-static char	*find_command_path(char *cmd, char **envp)
-{
-	char	**paths;
 	char	*path;
 	char	*full_path;
 	int		i;
 
-	i = 0;
-	if (access(cmd, F_OK | X_OK) == 0)
-		return(cmd);
-	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
-		i++;
-	if (!envp[i])
-		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -62,7 +29,29 @@ static char	*find_command_path(char *cmd, char **envp)
 		free(full_path);
 		i++;
 	}
+	i = 0;
+	while (paths[i])
+		free(paths[i++]);
+	free(paths);
 	return (NULL);
+}
+
+static char	*find_command_path(char *cmd, char **envp)
+{
+	char	**paths;
+	int		i;
+
+	i = 0;
+	if (!cmd)
+		return (NULL);
+	if (access(cmd, F_OK | X_OK) == 0)
+		return (cmd);
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
+		i++;
+	if (!envp[i])
+		return (NULL);
+	paths = ft_split(envp[i] + 5, ':');
+	return (search_in_paths(paths, cmd));
 }
 
 static void	setup_pipes(t_pipex *data, int cmd_index)
@@ -88,9 +77,7 @@ static void	child_process(t_pipex *data, char **cmd, int cmd_index)
 {
 	char	*cmd_path;
 
-	dprintf(2, "caca1\n");
 	cmd_path = find_command_path(cmd[0], data->envp);
-	dprintf(2, "%s\n", cmd_path);
 	handle_exec_error(cmd_path, cmd[0], data);
 	setup_pipes(data, cmd_index);
 	close_all_pipes(data);

@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   is_dot_or_slash.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 11:43:30 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/04 20:26:33 by tle-dref         ###   ########.fr       */
+/*   Created: 2024/11/05 09:27:59 by tle-dref          #+#    #+#             */
+/*   Updated: 2024/11/05 09:29:19 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+int	is_dot_or_slash(char s)
 {
-	t_list	*head;
-	t_list	*new;
-
-	head = NULL;
-	while (lst)
-	{
-		new = ft_lstnew(NULL);
-		if (!new)
-		{
-			ft_lstclear(&head, del);
-			return (NULL);
-		}
-		new->content = f(lst->content);
-		ft_lstadd_back(&head, new);
-		lst = lst->next;
-	}
-	return (head);
+	if(s == '.' || s == '/')
+		return(1);
+	return (0);
 }

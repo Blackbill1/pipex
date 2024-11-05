@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   isfullspace.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 11:43:30 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/04 20:26:33 by tle-dref         ###   ########.fr       */
+/*   Created: 2024/11/05 08:02:26 by tle-dref          #+#    #+#             */
+/*   Updated: 2024/11/05 10:16:18 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+int	isfullspace(char *str)
 {
-	t_list	*head;
-	t_list	*new;
-
-	head = NULL;
-	while (lst)
+	int	i;
+	
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
 	{
-		new = ft_lstnew(NULL);
-		if (!new)
-		{
-			ft_lstclear(&head, del);
-			return (NULL);
-		}
-		new->content = f(lst->content);
-		ft_lstadd_back(&head, new);
-		lst = lst->next;
+		if (!((str[i] >= 9 && str[i] <= 13) || str[i] != ' '))
+			return (0);
+		i++;
 	}
-	return (head);
+	return (1);
 }

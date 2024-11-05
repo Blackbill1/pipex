@@ -6,11 +6,39 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:29:54 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 05:15:44 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 08:30:13 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	handle_exec_error(char *cmd_path, char *cmd_name, t_pipex *data)
+{
+	char	*error;
+
+	if (!cmd_name)
+	{
+		write(2, "Permission denied : \n", 21);
+		clear_data(data);
+		exit(1);
+	}
+	else if (!cmd_path)
+	{
+		error = clean_join(ft_strjoin("Command not found: ", cmd_name), "\n");
+		write(2, error, ft_strlen(error));
+		free(error);
+		clear_data(data);
+		exit(1);
+	}
+	else if (access(cmd_path, X_OK) == -1)
+	{
+		error = clean_join(ft_strjoin("Permission denied: ", cmd_name), "\n");
+		write(2, error, ft_strlen(error));
+		free(error);
+		clear_data(data);
+		exit(1);
+	}
+}
 
 int	init_pipex(t_pipex *data, int ac, char **av, char **envp)
 {
@@ -29,9 +57,10 @@ int	init_pipex(t_pipex *data, int ac, char **av, char **envp)
 	data->cmd = ft_calloc(ac - 3, sizeof(char **));
 	while (i < ac - 3)
 	{
-		data->cmd[i] = ft_split(av[i + 2], ' ');
-		// if (ft_strcmp(av[i + 2], "") == 0)
-		// 	return (ft_putendl_fd("No command", 2), 1);
+		if (isfullspace(av[i + 2]))
+			data->cmd[i] = ft_split(av[i + 2], 'a');
+		else
+			data->cmd[i] = ft_split(av[i + 2], ' ');
 		data->cmd_count++;
 		i++;
 	}
@@ -57,7 +86,10 @@ int	init_pipex2(t_pipex *data, int ac, char **av, char **envp)
 	data->cmd = ft_calloc(ac - 4, sizeof(char **));
 	while (i < ac - 4)
 	{
-		data->cmd[i] = ft_split(av[i + 3], ' ');
+		if (isfullspace(av[i + 3]))
+			data->cmd[i] = ft_split(av[i + 3], 'a');
+		else
+			data->cmd[i] = ft_split(av[i + 3], ' ');
 		data->cmd_count++;
 		i++;
 	}
@@ -75,7 +107,7 @@ void	handle_here_doc(t_pipex *data, char **av)
 	{
 		perror("Open tmp failed ");
 		clear_data(data);
-		exit (1);
+		exit(1);
 	}
 	data->limiter = ft_strjoin(av[2], "\n");
 	dup2(tmp, STDOUT_FILENO);
@@ -116,13 +148,4 @@ void	clear_data(t_pipex *data)
 		}
 		free(data->cmd);
 	}
-}
-
-char *clean_join(char *s1, char *s2)
-{
-	char	*res;
-
-	res = ft_strjoin(s1, s2);
-	free(s1);
-	return res;
 }

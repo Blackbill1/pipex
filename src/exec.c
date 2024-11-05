@@ -6,7 +6,7 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:29:28 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 02:58:15 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 04:32:07 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static char	*find_command_path(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
+	if (access(cmd, F_OK | X_OK) == 0)
+		return(cmd);
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
 		i++;
 	if (!envp[i])

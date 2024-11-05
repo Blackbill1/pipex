@@ -6,7 +6,7 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 20:53:12 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 10:54:32 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 11:07:00 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	close_all_pipes(t_pipex *data)
 		close(data->pipe_fd[i]);
 		i++;
 	}
+	close(data->infile);
+	close(data->outfile);
 }
 
 void	create_pipes(t_pipex *data)

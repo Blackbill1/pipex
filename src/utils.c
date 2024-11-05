@@ -6,7 +6,7 @@
 /*   By: tle-dref <tle-dref@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 21:29:54 by tle-dref          #+#    #+#             */
-/*   Updated: 2024/11/05 22:08:49 by tle-dref         ###   ########.fr       */
+/*   Updated: 2024/11/05 22:18:56 by tle-dref         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_exec_error(char *cmd_path, char *cmd_name, t_pipex *data)
 	}
 	else if (!cmd_path)
 	{
-		dprintf(2, "%s\n%s\n", cmd_path, cmd_name);
+		dprintf(2, "!cmdpath pour %s\n", cmd_name);
 		error = clean_join(ft_strjoin("Command not found: ", cmd_name), "\n");
 		write(2, error, ft_strlen(error));
 		free(error);
